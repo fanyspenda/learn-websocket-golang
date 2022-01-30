@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let totalMessage = 1
+        let socket = new WebSocket("ws://localhost:8100/ws")
+
+        //what should do when connection is open
+        socket.onopen = e => {
+            console.log("success connecting to socket server")
+            socket.send("initial message")
+        }
+
+        //what should do when got error from ws server
+        socket.onerror = e => {
+            console.log("Error from socket server: ", e)
+        }
+
+        //what should do when sending message
+        socket.onmessage = m => {
+            console.log("sending message to server: ", m)
+        
+            setTimeout(() => {
+                socket.send("message "+(totalMessage))
+                console.log("waiting 3s to send message again")
+            }, 3000)
+
+            totalMessage++
+        }
+
+
+    </script>
+    
+</body>
+</html>
